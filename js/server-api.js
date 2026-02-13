@@ -2,7 +2,16 @@
 
 const ServerAPI = {
     // URL сервера (можно изменить в настройках)
-    serverUrl: window.SERVER_URL || 'https://your-server-url.herokuapp.com',
+    // Приоритет: window.SERVER_URL > AppConfig.SERVER_URL > значение по умолчанию
+    get serverUrl() {
+        if (window.SERVER_URL) {
+            return window.SERVER_URL;
+        }
+        if (window.AppConfig && window.AppConfig.getServerUrl) {
+            return window.AppConfig.getServerUrl();
+        }
+        return 'https://your-server-url.onrender.com';
+    },
     
     // Проверка доступности сервера
     async checkServer() {
