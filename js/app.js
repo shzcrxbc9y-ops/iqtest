@@ -37,6 +37,45 @@ const Utils = {
         if (navLink) {
             navLink.classList.add('active');
         }
+        
+        // Автоматическая загрузка данных при переходе на страницы
+        if (pageId === 'history-page') {
+            setTimeout(() => {
+                if (typeof loadHistory === 'function') {
+                    loadHistory();
+                }
+            }, 100);
+        } else if (pageId === 'leaderboard-page') {
+            setTimeout(() => {
+                if (typeof Leaderboard !== 'undefined') {
+                    Leaderboard.init();
+                }
+            }, 100);
+        } else if (pageId === 'statistics-page') {
+            setTimeout(() => {
+                if (typeof Statistics !== 'undefined') {
+                    Statistics.init();
+                }
+            }, 100);
+        } else if (pageId === 'achievements-page') {
+            setTimeout(() => {
+                if (typeof Achievements !== 'undefined') {
+                    Achievements.init();
+                }
+            }, 100);
+        } else if (pageId === 'goals-page') {
+            setTimeout(() => {
+                if (typeof Goals !== 'undefined') {
+                    Goals.init();
+                }
+            }, 100);
+        } else if (pageId === 'activity-page') {
+            setTimeout(() => {
+                if (typeof Activity !== 'undefined') {
+                    Activity.init();
+                }
+            }, 100);
+        }
     }
 };
 
@@ -153,7 +192,23 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             // Сохранение информации о пользователе
-            const userName = document.getElementById('user-name')?.value || 'Пользователь';
+            let userName = document.getElementById('user-name')?.value?.trim() || '';
+            if (!userName) {
+                // Пытаемся взять из настроек
+                if (typeof Storage !== 'undefined') {
+                    const settings = Storage.getSettings();
+                    userName = settings.defaultName || 'Пользователь';
+                } else {
+                    userName = 'Пользователь';
+                }
+            } else {
+                // Сохраняем имя в настройки
+                if (typeof Storage !== 'undefined') {
+                    const settings = Storage.getSettings();
+                    settings.defaultName = userName;
+                    Storage.saveSettings(settings);
+                }
+            }
             window.currentUserInfo = { age, name: userName };
 
             const difficulty = activeDifficulty.dataset.difficulty;
@@ -748,6 +803,42 @@ function finishTest() {
     
     window.currentTestResults = results;
     
+    // Автоматическое сохранение результатов
+    try {
+        // Убеждаемся, что имя пользователя сохранено
+        if (!results.userName || results.userName === 'Пользователь') {
+            if (window.currentUserInfo && window.currentUserInfo.name) {
+                results.userName = window.currentUserInfo.name;
+            } else if (typeof Storage !== 'undefined') {
+                const settings = Storage.getSettings();
+                if (settings.defaultName && String(settings.defaultName).trim()) {
+                    results.userName = String(settings.defaultName).trim();
+                } else {
+                    results.userName = 'Пользователь';
+                }
+            }
+        }
+        
+        // Сохраняем результат в Local Storage
+        if (typeof Storage !== 'undefined') {
+            Storage.saveResult(results);
+            console.log('Результат автоматически сохранен:', results);
+            
+            // Обновляем историю и рейтинг
+            setTimeout(() => {
+                loadHistory();
+                if (typeof Leaderboard !== 'undefined') {
+                    Leaderboard.displayLeaderboard();
+                }
+                if (typeof Statistics !== 'undefined') {
+                    Statistics.init();
+                }
+            }, 500);
+        }
+    } catch (error) {
+        console.error('Ошибка при автоматическом сохранении результата:', error);
+    }
+    
     // Эффект конфетти при хорошем результате
     if (results.iq >= 120 && typeof window.showConfetti === 'function') {
         setTimeout(() => {
@@ -909,6 +1000,10 @@ function deleteResult(id) {
             try {
                 Storage.deleteResult(id);
                 loadHistory();
+                // Обновляем рейтинг и статистику
+                if (typeof Leaderboard !== 'undefined') {
+                    Leaderboard.displayLeaderboard();
+                }
                 if (typeof Statistics !== 'undefined') {
                     Statistics.init();
                 }
@@ -1137,6 +1232,41 @@ document.addEventListener('click', function(e) {
         setTimeout(() => {
             if (typeof Challenges !== 'undefined') Challenges.init();
         }, 100);
+    }
+    if (e.target.closest('[data-page="history"]')) {
+        setTimeout(() => {
+            if (typeof loadHistory === 'function') {
+                loadHistory();
+            }
+        }, 100);
+    }
+});
+
+// Сохранение имени пользователя в настройки при вводе
+document.addEventListener('DOMContentLoaded', function() {
+    const userNameInput = document.getElementById('user-name');
+    if (userNameInput) {
+        // Загружаем сохраненное имя при загрузке страницы
+        if (typeof Storage !== 'undefined') {
+            const settings = Storage.getSettings();
+            if (settings.defaultName) {
+                userNameInput.value = settings.defaultName;
+            }
+        }
+        
+        // Сохраняем имя при изменении (с задержкой)
+        let saveTimeout;
+        userNameInput.addEventListener('input', function() {
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => {
+                if (typeof Storage !== 'undefined' && this.value.trim()) {
+                    const settings = Storage.getSettings();
+                    settings.defaultName = this.value.trim();
+                    Storage.saveSettings(settings);
+                    console.log('Имя пользователя сохранено:', this.value.trim());
+                }
+            }, 1000);
+        });
     }
 });
 
