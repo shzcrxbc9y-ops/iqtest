@@ -1,0 +1,4 @@
+Contact: mailto:security@example.com
+Expires: 2026-12-31T23:59:59.000Z
+Preferred-Languages: ru, en
+Canonical: https://shzcrxbc9y-ops.github.io/iqtest/.well-known/security.txt
