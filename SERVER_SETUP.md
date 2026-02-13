@@ -12,12 +12,15 @@
    - **Region**: выберите ближайший (например, Frankfurt)
    - **Branch**: `main` (или `master`)
    - **Root Directory**: оставьте **ПУСТЫМ** (или укажите `.` - точка)
+   - **Base Directory**: оставьте **ПУСТЫМ** (или укажите `.` - точка)
    - **Environment**: `Node`
    - **Build Command**: `cd server && npm install`
-   - **Start Command**: `cd server && npm start`
+     - *Render автоматически найдет и запустит `npm start` из package.json*
+     - *В package.json уже есть скрипт "start": "node server.js"*
    - **Publish Directory**: оставьте **ПУСТЫМ** (не используется для Node.js)
    - **Functions Directory**: оставьте **ПУСТЫМ** (не используется)
-   - **Base Directory**: оставьте **ПУСТЫМ** (или укажите `.` - точка)
+   
+   **Примечание:** Если в интерфейсе нет поля "Start Command", Render автоматически использует команду `npm start` из файла `package.json` в папке `server/`.
 5. Нажмите **Create Web Service**
 6. Дождитесь развертывания (2-3 минуты)
 7. Скопируйте URL (например: `https://iq-test-server.onrender.com`)

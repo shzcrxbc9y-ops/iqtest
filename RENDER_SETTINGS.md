@@ -15,9 +15,24 @@
 | **Base Directory** | **ПУСТО** или `.` | Оставьте пустым |
 | **Environment** | `Node` | Обязательно выберите Node |
 | **Build Command** | `cd server && npm install` | Установка зависимостей |
-| **Start Command** | `cd server && npm start` | Запуск сервера |
+| **Start Command** | *(не видно в интерфейсе)* | Render автоматически использует `npm start` из package.json |
 | **Publish Directory** | **ПУСТО** | Не используется для Node.js |
 | **Functions Directory** | **ПУСТО** | Не используется |
+
+### ✅ Если нет поля "Start Command"
+
+**Вариант 1 (рекомендуется):** Укажите только установку зависимостей:
+```
+Build Command: cd server && npm install
+```
+Render автоматически найдет и запустит `npm start` из `package.json` (там есть скрипт "start": "node server.js")
+
+**Вариант 2:** Если нужно указать все в Build Command:
+```
+Build Command: cd server && npm install && npm start
+```
+
+**Важно:** В `package.json` уже есть скрипт `"start": "node server.js"`, поэтому Render автоматически его найдет и запустит после установки зависимостей.
 
 ### ⚠️ Важно
 
@@ -41,7 +56,8 @@
 │ cd server && npm install           │
 │                                    │
 │ Start Command:                     │
-│ cd server && npm start             │
+│ (автоматически: npm start)         │
+│ Render найдет из package.json      │
 │                                    │
 │ Publish Directory: [пусто]         │
 │ Functions Directory: [пусто]       │
