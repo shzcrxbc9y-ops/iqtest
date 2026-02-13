@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Профессиональный тест IQ с детальным анализом результатов">
+    <title>IQ Test Pro - Профессиональная проверка интеллекта</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+    <!-- Частицы фона -->
+    <div class="particles" id="particles"></div>
+    
+    <!-- Навигация -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">🧠</span>
+                <span class="logo-text">IQ Test Pro</span>
+            </div>
+            <div class="nav-links">
+                <button type="button" class="nav-link active" data-page="home">Главная</button>
+                <button type="button" class="nav-link" data-page="test">Тест</button>
+                <button type="button" class="nav-link" data-page="history">История</button>
+                <button type="button" class="nav-link" data-page="statistics">Статистика</button>
+                <button type="button" class="nav-link" data-page="achievements">Достижения</button>
+                <button type="button" class="nav-link" data-page="leaderboard">Рейтинг</button>
+                <button type="button" class="nav-link" data-page="challenges">Задания</button>
+            </div>
+            <div class="header-controls">
+                <button type="button" id="sound-toggle" class="header-btn" title="Звук">
+                    <span id="sound-icon">🔊</span>
+                </button>
+                <button type="button" id="theme-toggle" class="theme-toggle" title="Переключить тему">🌙</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <!-- Главная страница -->
+        <div id="home-page" class="page active">
+            <div class="hero-section">
+                <div class="hero-content">
+                    <h1 class="hero-title fade-in-up">Тест IQ Pro</h1>
+                    <p class="hero-subtitle fade-in-up fade-delay-1">Профессиональная проверка уровня интеллекта</p>
+                    <div class="hero-features">
+                        <div class="feature-card stagger-item">
+                            <div class="feature-icon">📊</div>
+                            <h3>50+ вопросов</h3>
+                            <p>Разнообразные задания разных типов</p>
+                        </div>
+                        <div class="feature-card stagger-item">
+                            <div class="feature-icon">⚡</div>
+                            <h3>Быстрый результат</h3>
+                            <p>Мгновенный расчет IQ</p>
+                        </div>
+                        <div class="feature-card stagger-item">
+                            <div class="feature-icon">📈</div>
+                            <h3>Детальная статистика</h3>
+                            <p>Графики и анализ результатов</p>
+                        </div>
+                        <div class="feature-card stagger-item">
+                            <div class="feature-icon">💾</div>
+                            <h3>История тестов</h3>
+                            <p>Сохранение всех результатов</p>
+                        </div>
+                        <div class="feature-card stagger-item">
+                            <div class="feature-icon">🏅</div>
+                            <h3>Рейтинг</h3>
+                            <p>Сравнение с другими пользователями</p>
+                        </div>
+                        <div class="feature-card stagger-item">
+                            <div class="feature-icon">🎯</div>
+                            <h3>Ежедневные задания</h3>
+                            <p>Получайте награды за достижения</p>
+                        </div>
+                        <div class="feature-card stagger-item">
+                            <div class="feature-icon">🎮</div>
+                            <h3>Мини-игры</h3>
+                            <p>Тренируйте интеллект играя</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <div class="info-card info-card-test">
+                    <h2 class="info-card-title">📋 Информация о тесте</h2>
+                    <p class="info-card-subtitle">Параметры зависят от выбранного режима и сложности</p>
+                    <div class="info-grid">
+                        <div class="info-item info-item-icon">
+                            <span class="info-item-icon-symbol">📊</span>
+                            <div class="info-item-body">
+                                <strong>Вопросы</strong>
+                                <span class="info-item-value" id="total-questions-info">20–50</span>
+                                <span class="info-item-hint">по режиму и сложности</span>
+                            </div>
+                        </div>
+                        <div class="info-item info-item-icon">
+                            <span class="info-item-icon-symbol">⏱️</span>
+                            <div class="info-item-body">
+                                <strong>Время</strong>
+                                <span class="info-item-value">до 45 мин</span>
+                                <span class="info-item-hint">или без ограничения (практика)</span>
+                            </div>
+                        </div>
+                        <div class="info-item info-item-icon">
+                            <span class="info-item-icon-symbol">📐</span>
+                            <div class="info-item-body">
+                                <strong>Сложность</strong>
+                                <span class="info-item-value">Легкий · Средний · Сложный</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-categories-block">
+                        <h3 class="info-categories-title">Категории вопросов</h3>
+                        <ul class="info-categories-list">
+                            <li><span class="cat-icon">🧩</span> <strong>Логика</strong> — умозаключения и последовательности</li>
+                            <li><span class="cat-icon">🔢</span> <strong>Математика</strong> — числа и вычисления</li>
+                            <li><span class="cat-icon">📐</span> <strong>Пространственное</strong> — фигуры и ориентация</li>
+                            <li><span class="cat-icon">📝</span> <strong>Вербальное</strong> — слова и смыслы</li>
+                            <li><span class="cat-icon">🔗</span> <strong>Аналогии</strong> — сравнения и связи</li>
+                            <li><span class="cat-icon">🎨</span> <strong>Паттерны</strong> — ряды и закономерности</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="user-info-section user-info-card">
+                    <h2 class="user-info-title">📝 Информация о пользователе</h2>
+                    <p class="user-info-subtitle">Нужна для персональных результатов и сравнения с возрастной нормой</p>
+                    <div class="user-info-form">
+                        <div class="form-group form-group-user">
+                            <label for="user-age">Возраст <span class="required-mark">*</span></label>
+                            <input type="number" id="user-age" min="8" max="100" placeholder="Например: 25" class="form-input" aria-describedby="user-age-hint">
+                            <span id="user-age-hint" class="form-hint">От 8 до 100 лет — для сравнения с возрастной группой</span>
+                        </div>
+                        <div class="form-group form-group-user">
+                            <label for="user-name">Имя</label>
+                            <input type="text" id="user-name" placeholder="Как к вам обращаться" class="form-input" maxlength="50" aria-describedby="user-name-hint">
+                            <span id="user-name-hint" class="form-hint">Отображается в результатах и рейтинге (необязательно)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Режим теста -->
+            <div class="test-mode-selector">
+                    <h2>Выберите режим теста:</h2>
+                    <div class="mode-options">
+                        <button type="button" class="mode-btn active" data-mode="standard">
+                            <span class="mode-icon">⏱️</span>
+                            <span class="mode-name">Стандартный</span>
+                            <span class="mode-desc">С ограничением времени</span>
+                        </button>
+                        <button type="button" class="mode-btn" data-mode="practice">
+                            <span class="mode-icon">📚</span>
+                            <span class="mode-name">Практика</span>
+                            <span class="mode-desc">Без ограничения времени</span>
+                        </button>
+                        <button type="button" class="mode-btn" data-mode="quick">
+                            <span class="mode-icon">⚡</span>
+                            <span class="mode-name">Быстрый</span>
+                            <span class="mode-desc">10 вопросов, 10 минут</span>
+                        </button>
+                    </div>
+            </div>
+
+            <div class="difficulty-selector">
+                    <h2>Выберите уровень сложности:</h2>
+                    <div class="difficulty-options">
+                        <button type="button" class="difficulty-btn" data-difficulty="easy">
+                            <span class="difficulty-icon">🌱</span>
+                            <span class="difficulty-name">Легкий</span>
+                            <span class="difficulty-desc">20 вопросов, 30 минут</span>
+                        </button>
+                        <button type="button" class="difficulty-btn active" data-difficulty="medium">
+                            <span class="difficulty-icon">⚖️</span>
+                            <span class="difficulty-name">Средний</span>
+                            <span class="difficulty-desc">35 вопросов, 40 минут</span>
+                        </button>
+                        <button type="button" class="difficulty-btn" data-difficulty="hard">
+                            <span class="difficulty-icon">🔥</span>
+                            <span class="difficulty-name">Сложный</span>
+                            <span class="difficulty-desc">50 вопросов, 45 минут</span>
+                        </button>
+                    </div>
+            </div>
+
+            <!-- Фильтр по категориям -->
+            <div class="category-filter-section">
+                    <h2>Выберите категории вопросов (необязательно):</h2>
+                    <div class="category-filters">
+                        <label class="category-filter-item">
+                            <input type="checkbox" class="category-checkbox" value="logic" checked>
+                            <span class="filter-label">🧩 Логика</span>
+                        </label>
+                        <label class="category-filter-item">
+                            <input type="checkbox" class="category-checkbox" value="math" checked>
+                            <span class="filter-label">🔢 Математика</span>
+                        </label>
+                        <label class="category-filter-item">
+                            <input type="checkbox" class="category-checkbox" value="spatial" checked>
+                            <span class="filter-label">📐 Пространственное</span>
+                        </label>
+                        <label class="category-filter-item">
+                            <input type="checkbox" class="category-checkbox" value="verbal" checked>
+                            <span class="filter-label">📝 Вербальное</span>
+                        </label>
+                        <label class="category-filter-item">
+                            <input type="checkbox" class="category-checkbox" value="analogy" checked>
+                            <span class="filter-label">🔗 Аналогии</span>
+                        </label>
+                        <label class="category-filter-item">
+                            <input type="checkbox" class="category-checkbox" value="pattern" checked>
+                            <span class="filter-label">🎨 Паттерны</span>
+                        </label>
+                    </div>
+                    <button type="button" id="select-all-categories" class="btn btn-link">Выбрать все</button>
+            </div>
+
+            <!-- Подсказки перед тестом -->
+            <div class="tips-section">
+                    <button type="button" id="toggle-tips" class="btn btn-link">
+                        <span>💡</span> Показать советы перед тестом
+                    </button>
+                    <div id="tips-content" class="tips-content hidden">
+                        <div class="tip-card">
+                            <h3>📋 Подготовка к тесту</h3>
+                            <ul>
+                                <li>Убедитесь, что у вас достаточно времени для прохождения теста</li>
+                                <li>Выберите тихое место без отвлекающих факторов</li>
+                                <li>Используйте режим практики для знакомства с типами вопросов</li>
+                            </ul>
+                        </div>
+                        <div class="tip-card">
+                            <h3>⏱️ Управление временем</h3>
+                            <ul>
+                                <li>Не застревайте на одном вопросе слишком долго</li>
+                                <li>Сначала отвечайте на простые вопросы</li>
+                                <li>Используйте кнопку "Пропустить" для сложных вопросов</li>
+                            </ul>
+                        </div>
+                        <div class="tip-card">
+                            <h3>🎯 Стратегия прохождения</h3>
+                            <ul>
+                                <li>Внимательно читайте каждый вопрос</li>
+                                <li>Проверяйте свои ответы перед переходом к следующему</li>
+                                <li>Используйте навигацию по вопросам для возврата</li>
+                            </ul>
+                        </div>
+                    </div>
+            </div>
+
+            <button type="button" id="start-test-btn" class="btn btn-primary btn-large pulse-on-hover">
+                    <span>Начать тест</span>
+                    <span class="btn-arrow">→</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Страница теста -->
+        <div id="test-page" class="page">
+            <div class="test-container">
+                <div class="test-header">
+                    <div class="test-progress">
+                        <div class="progress-bar">
+                            <div id="progress-fill" class="progress-fill"></div>
+                        </div>
+                        <div class="progress-text">
+                            <span id="progress-percent">0%</span>
+                        </div>
+                    </div>
+                    <div class="test-info-bar">
+                        <div class="info-item">
+                            <span class="info-label">Вопрос:</span>
+                            <span id="question-number" class="info-value">1 / 50</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Время:</span>
+                            <span id="timer" class="info-value timer">45:00</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Сложность:</span>
+                            <span id="difficulty-badge" class="info-value badge">Средний</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-wrapper">
+                    <div class="question-card">
+                        <div class="question-header">
+                            <span class="question-type-badge" id="question-type"></span>
+                            <span class="question-points">+1 балл</span>
+                        </div>
+                        <div id="question-content" class="question-content"></div>
+                        <div id="answers-container" class="answers-container"></div>
+                    </div>
+                </div>
+
+                <div class="test-controls">
+                    <button type="button" id="prev-btn" class="btn btn-secondary" disabled>
+                        <span>←</span> Назад
+                    </button>
+                    <div class="question-nav">
+                        <button type="button" id="question-list-btn" class="btn btn-icon" title="Список вопросов">
+                            📋
+                        </button>
+                    </div>
+                    <button type="button" id="next-btn" class="btn btn-primary">
+                        Следующий <span>→</span>
+                    </button>
+                    <button type="button" id="finish-btn" class="btn btn-success hidden">
+                        ✓ Завершить тест
+                    </button>
+                </div>
+            </div>
+
+            <!-- Модальное окно списка вопросов -->
+            <div id="question-list-modal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Навигация по вопросам</h2>
+                        <button type="button" class="modal-close">&times;</button>
+                    </div>
+                    <div id="question-grid" class="question-grid"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Страница результатов -->
+        <div id="results-page" class="page">
+            <div class="results-container">
+                <div class="results-header">
+                    <h1>Результаты теста</h1>
+                    <p class="results-date" id="results-date"></p>
+                    <p class="results-meta" id="results-test-mode"></p>
+                </div>
+
+                <div class="iq-display-section">
+                    <div class="iq-circle-wrapper">
+                        <div class="iq-circle">
+                            <svg class="iq-ring" viewBox="0 0 200 200">
+                                <circle class="iq-ring-bg" cx="100" cy="100" r="90"></circle>
+                                <circle id="iq-ring-progress" class="iq-ring-progress" cx="100" cy="100" r="90"></circle>
+                            </svg>
+                            <div class="iq-content">
+                                <span id="iq-score" class="iq-number">0</span>
+                                <span class="iq-label">IQ</span>
+                            </div>
+                        </div>
+                        <div class="iq-level-badge" id="iq-level-badge">
+                            <span id="iq-level-text"></span>
+                        </div>
+                    </div>
+
+                    <div class="iq-interpretation">
+                        <h2 id="iq-level-title"></h2>
+                        <p id="iq-description"></p>
+                        <div class="iq-percentile">
+                            <span>Вы превосходите <strong id="iq-percentile">0%</strong> населения</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">✓</div>
+                        <div class="stat-content">
+                            <div class="stat-label">Правильных ответов</div>
+                            <div class="stat-value" id="correct-answers">0</div>
+                            <div class="stat-total">из <span id="total-questions-result">0</span></div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-content">
+                            <div class="stat-label">Процент выполнения</div>
+                            <div class="stat-value" id="percentage">0%</div>
+                            <div class="stat-total">точность</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⏱️</div>
+                        <div class="stat-content">
+                            <div class="stat-label">Время выполнения</div>
+                            <div class="stat-value" id="time-spent">0:00</div>
+                            <div class="stat-total">минут</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-content">
+                            <div class="stat-label">Средний балл</div>
+                            <div class="stat-value" id="average-score">0</div>
+                            <div class="stat-total">по категориям</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-breakdown">
+                    <h2>Результаты по категориям</h2>
+                    <div id="category-stats" class="category-stats"></div>
+                </div>
+
+                <div class="strengths-weaknesses">
+                    <h2>Сильные и слабые стороны</h2>
+                    <div class="sw-container">
+                        <div class="strengths-section">
+                            <h3>✅ Сильные стороны</h3>
+                            <div id="strengths-list" class="sw-list"></div>
+                        </div>
+                        <div class="weaknesses-section">
+                            <h3>⚠️ Области для улучшения</h3>
+                            <div id="weaknesses-list" class="sw-list"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="age-comparison">
+                    <h2>Сравнение с возрастной группой</h2>
+                    <div id="age-comparison-content" class="comparison-content"></div>
+                </div>
+
+                <div class="recommendations">
+                    <h2>💡 Рекомендации</h2>
+                    <div id="recommendations-list" class="recommendations-list"></div>
+                </div>
+
+                <div class="achievements-section">
+                    <h2>🏆 Полученные достижения</h2>
+                    <div id="achievements-display" class="achievements-grid"></div>
+                </div>
+
+                <div class="detailed-analysis">
+                    <h2>📋 Детальный анализ</h2>
+                    <button type="button" id="show-analysis-btn" class="btn btn-secondary">Показать подробный анализ ответов</button>
+                    <div id="detailed-analysis-content" class="analysis-content hidden"></div>
+                </div>
+
+                <div class="results-actions">
+                    <button type="button" id="save-results-btn" class="btn btn-primary">
+                        💾 Сохранить результат
+                    </button>
+                    <button type="button" id="export-results-btn" class="btn btn-secondary">
+                        📄 Экспортировать PDF
+                    </button>
+                    <button type="button" id="share-results-btn" class="btn btn-info">
+                        🔗 Поделиться результатом
+                    </button>
+                    <button type="button" id="restart-test-btn" class="btn btn-success">
+                        🔄 Пройти снова
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Страница истории -->
+        <div id="history-page" class="page">
+            <div class="history-container">
+                <div class="history-header">
+                    <h1>История тестов</h1>
+                    <button type="button" id="clear-history-btn" class="btn btn-danger">Очистить историю</button>
+                </div>
+                <div id="history-list" class="history-list">
+                    <div class="empty-state">
+                        <div class="empty-icon">📊</div>
+                        <h2>История пуста</h2>
+                        <p>Пройдите тест, чтобы увидеть результаты здесь</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Страница статистики -->
+        <div id="statistics-page" class="page">
+            <div class="statistics-container">
+                <div class="statistics-header">
+                    <h1>📊 Статистика</h1>
+                    <div class="statistics-period">
+                        <span class="period-label">Период:</span>
+                        <div class="period-buttons">
+                            <button type="button" class="period-btn active" data-period="all">Всё время</button>
+                            <button type="button" class="period-btn" data-period="month">Месяц</button>
+                            <button type="button" class="period-btn" data-period="week">Неделя</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="stats-kpi-row" id="stats-kpi-row">
+                    <div class="stats-kpi">
+                        <span class="stats-kpi-icon">📋</span>
+                        <span class="stats-kpi-value" id="stat-total-tests">0</span>
+                        <span class="stats-kpi-label">Тестов пройдено</span>
+                    </div>
+                    <div class="stats-kpi">
+                        <span class="stats-kpi-icon">🧠</span>
+                        <span class="stats-kpi-value" id="stat-avg-iq">—</span>
+                        <span class="stats-kpi-label">Средний IQ</span>
+                    </div>
+                    <div class="stats-kpi">
+                        <span class="stats-kpi-icon">🏆</span>
+                        <span class="stats-kpi-value" id="stat-best-iq">—</span>
+                        <span class="stats-kpi-label">Лучший результат</span>
+                    </div>
+                    <div class="stats-kpi">
+                        <span class="stats-kpi-icon">⏱️</span>
+                        <span class="stats-kpi-value" id="stat-avg-time">—</span>
+                        <span class="stats-kpi-label">Среднее время</span>
+                    </div>
+                    <div class="stats-kpi">
+                        <span class="stats-kpi-icon">🔥</span>
+                        <span class="stats-kpi-value" id="stat-streak">0</span>
+                        <span class="stats-kpi-label">Лучшая серия дней</span>
+                    </div>
+                    <div class="stats-kpi stats-kpi-trend" id="stat-trend-wrap">
+                        <span class="stats-kpi-icon" id="stat-trend-icon">➡️</span>
+                        <span class="stats-kpi-value" id="stat-trend-text">—</span>
+                        <span class="stats-kpi-label">Тренд IQ</span>
+                    </div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stats-card stats-card-wide">
+                        <h3>📈 Динамика IQ</h3>
+                        <div id="iq-chart" class="chart-container">
+                            <canvas id="iq-chart-canvas"></canvas>
+                        </div>
+                        <p class="chart-hint" id="iq-chart-hint">По оси X — порядковый номер теста, по оси Y — IQ</p>
+                    </div>
+                    <div class="stats-card">
+                        <h3>📊 Результаты по категориям</h3>
+                        <div id="category-chart" class="chart-container">
+                            <canvas id="category-chart-canvas"></canvas>
+                        </div>
+                    </div>
+                    <div class="stats-card">
+                        <h3>📉 Прогресс во времени</h3>
+                        <div id="progress-chart" class="chart-container">
+                            <canvas id="progress-chart-canvas"></canvas>
+                        </div>
+                        <p class="chart-hint">Процент правильных ответов по тестам</p>
+                    </div>
+                    <div class="stats-card">
+                        <h3>👥 Сравнение с другими</h3>
+                        <div id="comparison-stats" class="comparison-stats"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Страница достижений -->
+        <div id="achievements-page" class="page">
+            <div class="achievements-container">
+                <div class="achievements-header">
+                    <h1>🏆 Достижения</h1>
+                    <p class="achievements-subtitle">Разблокируйте награды за успехи в тестах</p>
+                </div>
+                <div class="achievements-kpi">
+                    <div class="achievements-kpi-item">
+                        <span class="achievements-kpi-value" id="unlocked-count">0</span>
+                        <span class="achievements-kpi-label">Разблокировано</span>
+                    </div>
+                    <div class="achievements-kpi-item">
+                        <span class="achievements-kpi-value" id="total-count">0</span>
+                        <span class="achievements-kpi-label">Всего</span>
+                    </div>
+                    <div class="achievements-kpi-item achievements-progress-wrap">
+                        <div class="achievements-progress-bar">
+                            <div class="achievements-progress-fill" id="achievements-progress-fill"></div>
+                        </div>
+                        <span class="achievements-kpi-label" id="achievements-percent">0%</span>
+                    </div>
+                </div>
+                <div class="achievements-filters">
+                    <div class="achievements-filter-group">
+                        <span class="achievements-filter-label">Категория:</span>
+                        <div class="achievements-filter-btns">
+                            <button type="button" class="achievement-filter-btn active" data-category="all">Все</button>
+                            <button type="button" class="achievement-filter-btn" data-category="general">Общие</button>
+                            <button type="button" class="achievement-filter-btn" data-category="iq">IQ</button>
+                            <button type="button" class="achievement-filter-btn" data-category="performance">Результаты</button>
+                            <button type="button" class="achievement-filter-btn" data-category="category">По категориям</button>
+                            <button type="button" class="achievement-filter-btn" data-category="difficulty">Сложность</button>
+                            <button type="button" class="achievement-filter-btn" data-category="progress">Прогресс</button>
+                        </div>
+                    </div>
+                    <div class="achievements-filter-group">
+                        <span class="achievements-filter-label">Показать:</span>
+                        <div class="achievements-filter-btns">
+                            <button type="button" class="achievement-status-btn active" data-status="all">Все</button>
+                            <button type="button" class="achievement-status-btn" data-status="unlocked">Разблокированные</button>
+                            <button type="button" class="achievement-status-btn" data-status="locked">Заблокированные</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="achievements-list" class="achievements-list"></div>
+            </div>
+        </div>
+
+        <!-- Страница рейтинга -->
+        <div id="leaderboard-page" class="page">
+            <div class="leaderboard-container">
+                <div class="leaderboard-header">
+                    <h1>🏅 Рейтинг</h1>
+                    <p class="leaderboard-subtitle">Лучшие результаты по IQ в выбранном периоде</p>
+                </div>
+                <div class="leaderboard-period">
+                    <span class="leaderboard-period-label">Период:</span>
+                    <div class="leaderboard-period-btns">
+                        <button type="button" class="leaderboard-filter-btn active" data-filter="all">Всё время</button>
+                        <button type="button" class="leaderboard-filter-btn" data-filter="month">Месяц</button>
+                        <button type="button" class="leaderboard-filter-btn" data-filter="week">Неделя</button>
+                    </div>
+                </div>
+                <div class="leaderboard-kpi">
+                    <div class="leaderboard-kpi-item">
+                        <span class="leaderboard-kpi-icon">#</span>
+                        <span class="leaderboard-kpi-value" id="user-rank">—</span>
+                        <span class="leaderboard-kpi-label">Ваше место</span>
+                    </div>
+                    <div class="leaderboard-kpi-item">
+                        <span class="leaderboard-kpi-icon">🧠</span>
+                        <span class="leaderboard-kpi-value" id="user-best-iq">—</span>
+                        <span class="leaderboard-kpi-label">Ваш лучший IQ</span>
+                    </div>
+                    <div class="leaderboard-kpi-item">
+                        <span class="leaderboard-kpi-icon">👥</span>
+                        <span class="leaderboard-kpi-value" id="total-participants">0</span>
+                        <span class="leaderboard-kpi-label">Участников</span>
+                    </div>
+                    <div class="leaderboard-kpi-item">
+                        <span class="leaderboard-kpi-icon">🥇</span>
+                        <span class="leaderboard-kpi-value" id="leaderboard-top-iq">—</span>
+                        <span class="leaderboard-kpi-label">Лучший в рейтинге</span>
+                    </div>
+                </div>
+                <div id="leaderboard-list" class="leaderboard-list">
+                    <div class="empty-state">
+                        <div class="empty-icon">🏅</div>
+                        <h2>Рейтинг пуст</h2>
+                        <p>Пройдите тест, чтобы попасть в рейтинг</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Страница заданий -->
+        <div id="challenges-page" class="page">
+            <div class="challenges-container">
+                <div class="challenges-header">
+                    <h1>🎯 Задания и челленджи</h1>
+                    <p class="challenges-subtitle">Выполняйте задания, зарабатывайте очки и открывайте награды</p>
+                </div>
+                <div class="challenges-kpi">
+                    <div class="challenges-kpi-item challenges-points">
+                        <span class="challenges-kpi-icon">⭐</span>
+                        <span class="challenges-kpi-value" id="challenges-total-points">0</span>
+                        <span class="challenges-kpi-label">Всего очков</span>
+                    </div>
+                    <div class="challenges-kpi-item">
+                        <span class="challenges-kpi-icon">📅</span>
+                        <span class="challenges-kpi-value" id="challenges-done-today">0/3</span>
+                        <span class="challenges-kpi-label">Выполнено сегодня</span>
+                    </div>
+                    <div class="challenges-kpi-item">
+                        <span class="challenges-kpi-icon">🔥</span>
+                        <span class="challenges-kpi-value" id="challenges-streak">0</span>
+                        <span class="challenges-kpi-label">Дней подряд</span>
+                    </div>
+                    <div class="challenges-kpi-item challenges-countdown">
+                        <span class="challenges-kpi-icon">⏰</span>
+                        <span class="challenges-kpi-value" id="challenges-reset-countdown">--:--:--</span>
+                        <span class="challenges-kpi-label">До обновления заданий</span>
+                    </div>
+                </div>
+                <div class="challenges-tabs">
+                    <button type="button" class="challenges-tab active" data-tab="daily">📅 Сегодня</button>
+                    <button type="button" class="challenges-tab" data-tab="permanent">💪 Постоянные</button>
+                </div>
+                <div id="challenges-daily-panel" class="challenges-panel active">
+                    <div class="challenges-featured" id="challenge-featured-wrap"></div>
+                    <h2 class="challenges-panel-title">Ежедневные задания</h2>
+                    <p class="challenges-panel-hint">Выполните все три — получите бонус +20 очков!</p>
+                    <div id="daily-challenges" class="challenges-list challenges-grid"></div>
+                </div>
+                <div id="challenges-permanent-panel" class="challenges-panel">
+                    <h2 class="challenges-panel-title">Долгосрочные челленджи</h2>
+                    <p class="challenges-panel-hint">Прогресс сохраняется. Награды выдаются один раз.</p>
+                    <div id="permanent-challenges" class="challenges-list challenges-grid"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Toast уведомления -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Скрипты -->
+    <script src="js/questions.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/test-modes.js"></script>
+    <script src="js/test-engine.js"></script>
+    <script src="js/age-norms.js"></script>
+    <script src="js/achievements.js"></script>
+    <script src="js/analysis.js"></script>
+    <script src="js/export.js"></script>
+    <script src="js/results.js"></script>
+    <script src="js/statistics.js"></script>
+    <script src="js/sounds.js"></script>
+    <script src="js/leaderboard.js"></script>
+    <script src="js/challenges.js"></script>
+    <script src="js/minigames.js"></script>
+    <script src="js/enhancements.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        // Инициализация улучшений после загрузки DOM
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                if (typeof Enhancements !== 'undefined') {
+                    Enhancements.init();
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html>
