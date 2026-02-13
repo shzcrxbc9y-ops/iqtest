@@ -1522,17 +1522,6 @@ body {
     margin-bottom: 1rem;
 }
 
-.loading-state {
-    text-align: center;
-    padding: 4rem 2rem;
-    color: var(--text-secondary);
-}
-
-.loading-state p {
-    margin-top: 1rem;
-    font-size: 1.1rem;
-}
-
 /* Страница статистики */
 .statistics-container {
     background: var(--bg-white);
