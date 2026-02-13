@@ -2,6 +2,9 @@
 
 const Leaderboard = {
     currentFilter: 'all',
+    sharedLeaderboardUrl: 'https://raw.githubusercontent.com/shzcrxbc9y-ops/iqtest/main/shared-leaderboard.json',
+    sharedLeaderboardData: null,
+    isLoading: false,
 
     getCurrentUserName() {
         if (window.currentUserInfo && window.currentUserInfo.name) return window.currentUserInfo.name;
@@ -12,21 +15,136 @@ const Leaderboard = {
         return 'Пользователь';
     },
 
-    // Получить рейтинг
-    getLeaderboard(filter = 'all') {
-        const results = Storage.getResults();
-        if (results.length === 0) return [];
+    // Загрузка общего рейтинга (из localStorage и GitHub)
+    async loadSharedLeaderboard() {
+        if (this.isLoading && this.sharedLeaderboardData) {
+            return this.sharedLeaderboardData;
+        }
+        
+        try {
+            this.isLoading = true;
+            
+            // Сначала проверяем localStorage (быстрее и работает офлайн)
+            const localShared = localStorage.getItem('sharedLeaderboardResults');
+            if (localShared) {
+                const parsed = JSON.parse(localShared);
+                this.sharedLeaderboardData = parsed;
+            }
+            
+            // Затем пытаемся загрузить с GitHub для синхронизации
+            try {
+                const response = await fetch(this.sharedLeaderboardUrl + '?t=' + Date.now(), {
+                    cache: 'no-cache'
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    const githubResults = data.results || [];
+                    
+                    // Объединяем результаты: GitHub + локальные
+                    if (githubResults.length > 0) {
+                        const merged = [...githubResults];
+                        const githubUserNames = new Set(githubResults.map(r => r.userName + '_' + r.id));
+                        
+                        // Добавляем локальные результаты, которых нет в GitHub
+                        if (this.sharedLeaderboardData) {
+                            this.sharedLeaderboardData.forEach(local => {
+                                const key = local.userName + '_' + local.id;
+                                if (!githubUserNames.has(key)) {
+                                    merged.push(local);
+                                }
+                            });
+                        }
+                        
+                        // Обновляем localStorage
+                        const trimmed = merged.slice(-1000);
+                        localStorage.setItem('sharedLeaderboardResults', JSON.stringify(trimmed));
+                        this.sharedLeaderboardData = trimmed;
+                    }
+                }
+            } catch (githubError) {
+                console.warn('Не удалось загрузить с GitHub, используем локальные данные:', githubError);
+            }
+            
+            // Если данных нет нигде, возвращаем пустой массив
+            if (!this.sharedLeaderboardData) {
+                this.sharedLeaderboardData = [];
+            }
+            
+            return this.sharedLeaderboardData;
+        } catch (error) {
+            console.error('Ошибка при загрузке общего рейтинга:', error);
+            return this.sharedLeaderboardData || [];
+        } finally {
+            this.isLoading = false;
+        }
+    },
 
-        let filteredResults = [...results];
+    // Сохранение результата в общий рейтинг (через GitHub API или локально)
+    async saveToSharedLeaderboard(result) {
+        try {
+            // Получаем текущие данные
+            let sharedData = await this.loadSharedLeaderboard();
+            
+            // Добавляем новый результат
+            const newResult = {
+                ...result,
+                id: Date.now(),
+                timestamp: new Date().toISOString(),
+                userName: result.userName || 'Анонимный пользователь'
+            };
+            
+            sharedData.push(newResult);
+            
+            // Сохраняем локально для синхронизации
+            // Примечание: для реального общего рейтинга нужен сервер или GitHub API с токеном
+            // Пока сохраняем в localStorage с пометкой "shared"
+            const sharedResults = JSON.parse(localStorage.getItem('sharedLeaderboardResults') || '[]');
+            sharedResults.push(newResult);
+            // Оставляем только последние 1000 результатов
+            const trimmed = sharedResults.slice(-1000);
+            localStorage.setItem('sharedLeaderboardResults', JSON.stringify(trimmed));
+            
+            // Обновляем кэш
+            this.sharedLeaderboardData = trimmed;
+            
+            console.log('Результат добавлен в общий рейтинг (локально)');
+        } catch (error) {
+            console.error('Ошибка при сохранении в общий рейтинг:', error);
+        }
+    },
+
+    // Получить рейтинг (объединенный: общий + локальный)
+    async getLeaderboard(filter = 'all') {
+        // Загружаем общий рейтинг
+        const sharedResults = await this.loadSharedLeaderboard();
+        
+        // Получаем локальные результаты
+        const localResults = Storage.getResults();
+        
+        // Объединяем результаты (приоритет у общих, но добавляем локальные если их нет в общих)
+        const allResults = [...sharedResults];
+        
+        // Добавляем локальные результаты, которых нет в общих (по userName)
+        const sharedUserNames = new Set(sharedResults.map(r => r.userName));
+        localResults.forEach(local => {
+            if (!sharedUserNames.has(local.userName)) {
+                allResults.push(local);
+            }
+        });
+        
+        if (allResults.length === 0) return [];
+
+        let filteredResults = [...allResults];
 
         if (filter === 'month') {
             const monthAgo = new Date();
             monthAgo.setMonth(monthAgo.getMonth() - 1);
-            filteredResults = results.filter(r => new Date(r.timestamp) >= monthAgo);
+            filteredResults = allResults.filter(r => new Date(r.timestamp) >= monthAgo);
         } else if (filter === 'week') {
             const weekAgo = new Date();
             weekAgo.setDate(weekAgo.getDate() - 7);
-            filteredResults = results.filter(r => new Date(r.timestamp) >= weekAgo);
+            filteredResults = allResults.filter(r => new Date(r.timestamp) >= weekAgo);
         }
 
         // Группируем по пользователям и берем лучший результат каждого
@@ -56,13 +174,13 @@ const Leaderboard = {
     },
 
     // Получить позицию пользователя
-    getUserRank(userName) {
-        const leaderboard = this.getLeaderboard('all');
+    async getUserRank(userName) {
+        const leaderboard = await this.getLeaderboard('all');
         const userResult = leaderboard.find(r => r.userName === userName);
         return userResult ? userResult.rank : null;
     },
 
-    updateKPI(leaderboard, currentUser) {
+    async updateKPI(leaderboard, currentUser) {
         const set = (id, val) => {
             const el = document.getElementById(id);
             if (el) el.textContent = val;
@@ -74,7 +192,7 @@ const Leaderboard = {
             set('leaderboard-top-iq', '—');
             return;
         }
-        const userRank = this.getUserRank(currentUser);
+        const userRank = await this.getUserRank(currentUser);
         const userBest = leaderboard.find(r => r && r.userName === currentUser);
         const topEntry = leaderboard[0];
         set('user-rank', userRank ? '#' + userRank : '—');
@@ -99,7 +217,7 @@ const Leaderboard = {
     },
 
     // Отобразить рейтинг
-    displayLeaderboard() {
+    async displayLeaderboard() {
         const filter = this.currentFilter;
         const container = document.getElementById('leaderboard-list');
         if (!container) return;
@@ -109,11 +227,14 @@ const Leaderboard = {
             return;
         }
 
+        // Показываем индикатор загрузки
+        container.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div><p>Загрузка рейтинга...</p></div>';
+
         const currentUser = this.getCurrentUserName();
 
         try {
-            const leaderboard = this.getLeaderboard(filter);
-            this.updateKPI(leaderboard, currentUser);
+            const leaderboard = await this.getLeaderboard(filter);
+            await this.updateKPI(leaderboard, currentUser);
 
             if (!leaderboard || leaderboard.length === 0) {
                 container.innerHTML = `
@@ -164,8 +285,10 @@ const Leaderboard = {
         }
     },
 
-    init() {
+    async init() {
         this.setupFilters();
-        this.displayLeaderboard();
+        // Загружаем общий рейтинг при инициализации
+        await this.loadSharedLeaderboard();
+        await this.displayLeaderboard();
     }
 };

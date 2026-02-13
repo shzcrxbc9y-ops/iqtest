@@ -46,9 +46,9 @@ const Utils = {
                 }
             }, 100);
         } else if (pageId === 'leaderboard-page') {
-            setTimeout(() => {
+            setTimeout(async () => {
                 if (typeof Leaderboard !== 'undefined') {
-                    Leaderboard.init();
+                    await Leaderboard.init();
                 }
             }, 100);
         } else if (pageId === 'statistics-page') {
@@ -824,11 +824,18 @@ function finishTest() {
             Storage.saveResult(results);
             console.log('Результат автоматически сохранен:', results);
             
+            // Сохраняем в общий рейтинг
+            if (typeof Leaderboard !== 'undefined' && Leaderboard.saveToSharedLeaderboard) {
+                Leaderboard.saveToSharedLeaderboard(results).catch(err => {
+                    console.warn('Не удалось сохранить в общий рейтинг:', err);
+                });
+            }
+            
             // Обновляем историю и рейтинг
-            setTimeout(() => {
+            setTimeout(async () => {
                 loadHistory();
                 if (typeof Leaderboard !== 'undefined') {
-                    Leaderboard.displayLeaderboard();
+                    await Leaderboard.displayLeaderboard();
                 }
                 if (typeof Statistics !== 'undefined') {
                     Statistics.init();
@@ -1224,8 +1231,8 @@ document.addEventListener('click', function(e) {
         }, 100);
     }
     if (e.target.closest('[data-page="leaderboard"]')) {
-        setTimeout(() => {
-            if (typeof Leaderboard !== 'undefined') Leaderboard.init();
+        setTimeout(async () => {
+            if (typeof Leaderboard !== 'undefined') await Leaderboard.init();
         }, 100);
     }
     if (e.target.closest('[data-page="challenges"]')) {
