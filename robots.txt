@@ -1,4 +1,9 @@
 User-agent: *
 Allow: /
 
+# Sitemap
 Sitemap: https://shzcrxbc9y-ops.github.io/iqtest/
+
+# Crawl-delay
+Crawl-delay: 1
+

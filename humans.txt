@@ -1,0 +1,12 @@
+/* TEAM */
+Developer: IQ Test Pro Team
+Contact: https://github.com/shzcrxbc9y-ops/iqtest
+
+/* THANKS */
+Built with: HTML5, CSS3, JavaScript
+Hosted on: GitHub Pages
+
+/* SITE */
+Last update: 2026/02/11
+Standards: HTML5, CSS3, ES6
+Components: Vanilla JavaScript
