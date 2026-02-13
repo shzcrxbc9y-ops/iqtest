@@ -65,10 +65,44 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error('Ошибка: кнопка start-test-btn не найдена!');
     }
     
+    // Мобильное меню
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const navLinks = document.getElementById('nav-links');
+    
+    if (mobileMenuToggle && navLinks) {
+        mobileMenuToggle.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+            mobileMenuToggle.classList.toggle('active');
+            Sounds.playClick();
+        });
+        
+        // Закрытие меню при клике на ссылку
+        const navLinkButtons = navLinks.querySelectorAll('.nav-link');
+        navLinkButtons.forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth <= 768) {
+                    navLinks.classList.remove('active');
+                    mobileMenuToggle.classList.remove('active');
+                }
+            });
+        });
+        
+        // Закрытие меню при клике вне его
+        document.addEventListener('click', function(e) {
+            if (window.innerWidth <= 768 && 
+                !navLinks.contains(e.target) && 
+                !mobileMenuToggle.contains(e.target) &&
+                navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                mobileMenuToggle.classList.remove('active');
+            }
+        });
+    }
+    
     // Навигация
-    const navLinks = document.querySelectorAll('.nav-link');
-    console.log('Найдено навигационных ссылок:', navLinks.length);
-    navLinks.forEach(link => {
+    const allNavLinks = document.querySelectorAll('.nav-link');
+    console.log('Найдено навигационных ссылок:', allNavLinks.length);
+    allNavLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
             Sounds.playClick();

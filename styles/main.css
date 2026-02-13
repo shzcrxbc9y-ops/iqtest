@@ -66,8 +66,40 @@ body {
     margin: 0 auto;
     padding: 0 2rem;
     display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.nav-top {
+    display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+}
+
+.mobile-menu-btn {
+    display: none;
+    background: var(--bg-light);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    color: var(--text-primary);
+}
+
+.mobile-menu-btn:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: scale(1.05);
+}
+
+.mobile-menu-btn.active .menu-icon {
+    transform: rotate(90deg);
 }
 
 .logo {
@@ -86,6 +118,9 @@ body {
 .nav-links {
     display: flex;
     gap: 1rem;
+    flex-wrap: wrap;
+    width: 100%;
+    transition: all 0.3s ease;
 }
 
 .nav-link {
@@ -2288,89 +2323,439 @@ body {
     align-items: center;
 }
 
-/* Адаптивность */
-@media (max-width: 768px) {
-    .nav-container {
-        flex-direction: column;
-        gap: 1rem;
-    }
+/* ============================================
+   МОБИЛЬНАЯ ВЕРСИЯ - УЛУЧШЕННАЯ АДАПТИВНОСТЬ
+   ============================================ */
 
-    .nav-links {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .hero-title {
-        font-size: 2.5rem;
-    }
-
-    .hero-subtitle {
-        font-size: 1.2rem;
-    }
-
-    .hero-features {
-        grid-template-columns: 1fr;
-    }
-
-    .info-section {
+/* Планшеты и маленькие экраны */
+@media (max-width: 1024px) {
+    .main-container {
         padding: 1.5rem;
     }
-
-    .difficulty-options {
-        grid-template-columns: 1fr;
+    
+    .nav-container {
+        padding: 0 1.5rem;
     }
+}
 
-    .iq-display-section {
-        grid-template-columns: 1fr;
+/* Мобильные устройства */
+@media (max-width: 768px) {
+    /* Навигация */
+    .nav-container {
+        padding: 0 1rem;
     }
-
-    .iq-circle {
-        width: 200px;
-        height: 200px;
+    
+    .nav-top {
+        padding: 0.75rem 0;
     }
-
-    .iq-number {
-        font-size: 3rem;
+    
+    .logo {
+        font-size: 1.25rem;
     }
-
-    .test-controls {
+    
+    .logo-icon {
+        font-size: 1.5rem;
+    }
+    
+    .mobile-menu-btn {
+        display: flex;
+    }
+    
+    .nav-links {
+        display: none;
         flex-direction: column;
+        gap: 0.5rem;
+        padding: 1rem 0;
+        background: var(--bg-white);
+        border-radius: 12px;
+        margin-top: 0.5rem;
+        box-shadow: var(--shadow-lg);
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: all 0.3s ease;
     }
-
-    .results-actions {
-        flex-direction: column;
+    
+    .nav-links.active {
+        display: flex;
+        max-height: 500px;
+        opacity: 1;
     }
-
-    .btn {
+    
+    .nav-link {
         width: 100%;
-        justify-content: center;
+        padding: 1rem;
+        text-align: left;
+        font-size: 1rem;
+        border-radius: 10px;
     }
-
-    .history-header {
-        flex-direction: column;
-        gap: 1rem;
-        align-items: flex-start;
+    
+    .header-controls {
+        gap: 0.5rem;
+    }
+    
+    .header-btn, .theme-toggle {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+    }
+    
+    /* Основной контейнер */
+    .main-container {
+        padding: 1rem;
+    }
+    
+    /* Главная страница */
+    .hero-section {
+        padding: 2rem 0;
     }
     
     .hero-title {
         font-size: 2.5rem;
+        line-height: 1.2;
+        margin-bottom: 1rem;
     }
     
     .hero-subtitle {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
+        padding: 0 1rem;
+    }
+    
+    .hero-features {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin-top: 2rem;
     }
     
     .feature-card {
         padding: 1.5rem;
     }
     
+    .feature-icon {
+        font-size: 2.5rem;
+    }
+    
+    /* Информационные секции */
+    .info-section {
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+    }
+    
+    .info-title {
+        font-size: 1.5rem;
+    }
+    
+    /* Кнопки сложности */
+    .difficulty-options {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
     .difficulty-btn {
+        padding: 1.5rem;
+        font-size: 1.1rem;
+    }
+    
+    /* Режимы теста */
+    .mode-options {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .mode-btn {
+        padding: 1.25rem;
+    }
+    
+    /* Категории */
+    .category-filters {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    /* Кнопки */
+    .btn {
+        width: 100%;
+        padding: 1rem 1.5rem;
+        font-size: 1rem;
+        justify-content: center;
+    }
+    
+    /* Результаты */
+    .results-container {
         padding: 1.5rem;
     }
     
+    .results-header h1 {
+        font-size: 2rem;
+    }
+    
+    .iq-display-section {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .iq-circle {
+        width: 180px;
+        height: 180px;
+        margin: 0 auto;
+    }
+    
+    .iq-number {
+        font-size: 2.5rem;
+    }
+    
+    .results-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    /* История */
+    .history-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+    
+    .history-item {
+        padding: 1rem;
+    }
+    
+    /* Статистика */
+    .statistics-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .stats-kpi-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+    
+    .stats-kpi {
+        padding: 1rem;
+    }
+    
+    .stats-card-wide {
+        padding: 1.5rem;
+    }
+    
+    /* Достижения */
+    .achievements-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .achievement-card {
+        padding: 1.25rem;
+    }
+    
+    .achievements-filters {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    /* Рейтинг */
+    .leaderboard-container {
+        padding: 1.5rem;
+    }
+    
+    .leaderboard-item {
+        padding: 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+    
+    .leaderboard-kpi {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+    
+    /* Задания */
+    .challenges-container {
+        padding: 1.5rem;
+    }
+    
+    .challenges-tabs {
+        flex-wrap: wrap;
+    }
+    
+    .challenges-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .challenge-card {
+        padding: 1.25rem;
+    }
+    
+    /* Цели */
+    .goals-container {
+        padding: 1.5rem;
+    }
+    
+    .goals-summary {
+        grid-template-columns: 1fr;
+    }
+    
+    .goal-card {
+        padding: 1.25rem;
+    }
+    
+    /* Активность */
+    .activity-container {
+        padding: 1.5rem;
+    }
+    
+    .activity-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+    
+    .activity-calendar-grid {
+        gap: 0.25rem;
+    }
+    
+    .cal-day {
+        font-size: 0.75rem;
+        padding: 0.25rem;
+    }
+    
+    /* Настройки */
+    .settings-container {
+        padding: 1.5rem;
+    }
+    
+    .settings-sections {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Toast */
+    .toast-container {
+        left: 1rem;
+        right: 1rem;
+        top: 70px;
+    }
+    
+    .toast {
+        min-width: auto;
+        width: 100%;
+        padding: 1rem;
+    }
+    
+    /* Модальные окна */
+    .modal-content {
+        width: 95%;
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+    
+    /* Карточки */
     .stat-card {
         flex-direction: column;
         text-align: center;
+        padding: 1.25rem;
+    }
+    
+    /* Вопросы теста */
+    .question-container {
+        padding: 1.5rem;
+    }
+    
+    .question-text {
+        font-size: 1.1rem;
+    }
+    
+    .answer-options {
+        gap: 0.75rem;
+    }
+    
+    .answer-option {
+        padding: 1rem;
+    }
+    
+    .test-progress {
+        padding: 0.75rem 1rem;
+    }
+    
+    /* Dashboard сегодня */
+    .today-dashboard {
+        padding: 1.5rem;
+    }
+    
+    .today-cards {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .today-card {
+        padding: 1.25rem;
+    }
+}
+
+/* Очень маленькие экраны */
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .logo-text {
+        font-size: 1.1rem;
+    }
+    
+    .main-container {
+        padding: 0.75rem;
+    }
+    
+    .nav-container {
+        padding: 0 0.75rem;
+    }
+    
+    .stats-kpi-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .leaderboard-kpi {
+        grid-template-columns: 1fr;
+    }
+    
+    .activity-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .iq-circle {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .iq-number {
+        font-size: 2rem;
+    }
+    
+    .feature-card,
+    .difficulty-btn,
+    .mode-btn,
+    .challenge-card,
+    .goal-card,
+    .achievement-card {
+        padding: 1rem;
+    }
+    
+    .info-section,
+    .results-container,
+    .statistics-container,
+    .achievements-container,
+    .leaderboard-container,
+    .challenges-container,
+    .goals-container,
+    .activity-container,
+    .settings-container {
+        padding: 1rem;
     }
 }
 
@@ -3210,5 +3595,155 @@ body {
     100% {
         transform: translateY(-100vh) translateX(100px) rotate(360deg);
         opacity: 0;
+    }
+}
+
+/* Дополнительные улучшения для мобильной версии */
+@media (max-width: 768px) {
+    /* Улучшенная типографика */
+    h1 {
+        font-size: 2rem;
+        line-height: 1.3;
+    }
+    
+    h2 {
+        font-size: 1.75rem;
+        line-height: 1.3;
+    }
+    
+    h3 {
+        font-size: 1.5rem;
+        line-height: 1.4;
+    }
+    
+    /* Улучшенные отступы */
+    .page {
+        padding: 0;
+    }
+    
+    /* Карточки с лучшими отступами */
+    .card, .feature-card, .stat-card, .achievement-card, 
+    .challenge-card, .goal-card, .today-card {
+        margin-bottom: 1rem;
+    }
+    
+    /* Улучшенные формы */
+    .form-group {
+        margin-bottom: 1.25rem;
+    }
+    
+    input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    select,
+    textarea {
+        width: 100%;
+        padding: 0.875rem;
+        font-size: 1rem;
+    }
+    
+    /* Улучшенные таблицы */
+    table {
+        font-size: 0.9rem;
+        display: block;
+        overflow-x: auto;
+    }
+    
+    /* Графики и канвасы */
+    canvas {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    /* Улучшенная прокрутка на мобильных */
+    body {
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Улучшенные тени для мобильных */
+    .card, .feature-card, .stat-card {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Улучшенные границы */
+    .border-radius-lg {
+        border-radius: 12px;
+    }
+    
+    /* Оптимизация для touch */
+    button, .btn, .nav-link {
+        min-height: 44px;
+        touch-action: manipulation;
+    }
+    
+    /* Улучшенные иконки */
+    .icon-large {
+        font-size: 2rem;
+    }
+    
+    /* Скрытие лишних элементов на мобильных */
+    .desktop-only {
+        display: none !important;
+    }
+    
+    .mobile-only {
+        display: block !important;
+    }
+}
+
+@media (min-width: 769px) {
+    .mobile-only {
+        display: none !important;
+    }
+}
+
+/* Портретная ориентация */
+@media (max-width: 768px) and (orientation: portrait) {
+    .hero-section {
+        padding: 1.5rem 0;
+    }
+    
+    .main-container {
+        padding: 1rem 0.75rem;
+    }
+}
+
+/* Альбомная ориентация на мобильных */
+@media (max-width: 1024px) and (orientation: landscape) and (max-height: 500px) {
+    .navbar {
+        padding: 0.5rem 0;
+    }
+    
+    .hero-section {
+        padding: 1rem 0;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .main-container {
+        padding: 1rem;
+    }
+}
+
+/* Улучшения для очень маленьких экранов */
+@media (max-width: 360px) {
+    .logo-text {
+        font-size: 1rem;
+    }
+    
+    .hero-title {
+        font-size: 1.75rem;
+    }
+    
+    .nav-link {
+        font-size: 0.9rem;
+        padding: 0.875rem;
+    }
+    
+    .btn {
+        font-size: 0.9rem;
+        padding: 0.875rem 1.25rem;
     }
 }
