@@ -41,10 +41,15 @@ npm run dev
 
 4. Настройки:
    - **Name**: `iq-test-server` (или любое другое имя)
+   - **Region**: выберите ближайший регион
+   - **Branch**: `main` (или `master`)
+   - **Root Directory**: оставьте **ПУСТЫМ** (или укажите `.` - точка)
+   - **Base Directory**: оставьте **ПУСТЫМ** (или укажите `.` - точка)
    - **Environment**: `Node`
    - **Build Command**: `cd server && npm install`
    - **Start Command**: `cd server && npm start`
-   - **Root Directory**: оставьте пустым или укажите корень репозитория
+   - **Publish Directory**: оставьте **ПУСТЫМ** (не используется для Node.js)
+   - **Functions Directory**: оставьте **ПУСТЫМ** (не используется)
 
 5. Нажмите **Create Web Service**
 

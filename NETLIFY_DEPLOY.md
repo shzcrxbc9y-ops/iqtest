@@ -16,15 +16,8 @@ Netlify может автоматически обновлять сайт при
 
 **Build settings:**
 - **Branch to deploy:** `main`
-- **Base directory:** (оставьте пустым или `/`)
 - **Build command:** (оставьте пустым - статический сайт)
 - **Publish directory:** `/` (корневая папка)
-- **Functions directory:** (оставьте пустым - не используется)
-
-**Важно:** 
-- ✅ **Publish directory** = `/` (корневая папка проекта)
-- ✅ **Base directory** = оставьте пустым
-- ✅ **Functions directory** = оставьте пустым (для статического сайта не нужен)
 
 ### Шаг 3: Нажмите "Deploy site"
 

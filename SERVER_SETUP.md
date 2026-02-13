@@ -8,14 +8,24 @@
 2. Нажмите **New +** → **Web Service**
 3. Подключите ваш GitHub репозиторий
 4. Настройки:
-   - **Name**: `iq-test-server`
-   - **Root Directory**: оставьте пустым
+   - **Name**: `iq-test-server` (или любое другое имя)
+   - **Region**: выберите ближайший (например, Frankfurt)
+   - **Branch**: `main` (или `master`)
+   - **Root Directory**: оставьте **ПУСТЫМ** (или укажите `.` - точка)
    - **Environment**: `Node`
    - **Build Command**: `cd server && npm install`
    - **Start Command**: `cd server && npm start`
+   - **Publish Directory**: оставьте **ПУСТЫМ** (не используется для Node.js)
+   - **Functions Directory**: оставьте **ПУСТЫМ** (не используется)
+   - **Base Directory**: оставьте **ПУСТЫМ** (или укажите `.` - точка)
 5. Нажмите **Create Web Service**
 6. Дождитесь развертывания (2-3 минуты)
 7. Скопируйте URL (например: `https://iq-test-server.onrender.com`)
+
+**Важно:** 
+- Для Node.js сервера **Publish Directory** и **Functions Directory** должны быть **ПУСТЫМИ**
+- **Base Directory** можно оставить пустым или указать `.` (точка)
+- **Root Directory** можно оставить пустым или указать `.` (точка)
 
 ### Вариант 2: Railway.app
 
